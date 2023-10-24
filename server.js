@@ -4,7 +4,7 @@ const uuid = require('generate-unique-id');
 const fs = require('fs').promises;
 const notesData = require('./public/db/db.json');
 
-const PORT = process.env.POST || 3001;
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 
