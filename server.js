@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const uuid = require('generate-unique-id');
 const fs = require('fs').promises;
 const notesData = require('./public/db/db.json');
 
@@ -21,16 +22,20 @@ app.get('/api/notes', (req, res) => {
     console.info(`${req.method} request recived to get reviews.`);
 });
 
-app.post('api/notes', (req, res) => {
-    console.into(`${req.method} request recived to add a review.`);
+app.post('/api/notes', (req, res) => {
+    console.info(`${req.method} request recived to add a review.`);
 
-    const {title, review} = req.body;
-
-    if (title && review) {
+    const {title, text} = req.body;
+    console.log(title);
+    console.log(text);
+    if (title && text) {
         const newNote = {
+            id: uuid(),
             title,
-            review
+            text
         };
+
+        const notes = notesData;
 
         notes.push(newNote);
         const reviewString = JSON.stringify(notes, null);
@@ -49,5 +54,33 @@ app.post('api/notes', (req, res) => {
         res.status(500).json('Error in creating note.');
     }
 });
+
+
+// app.delete('/api/notes/:id', (req, res) => {
+//     console.info(`${req.method} request recived to delete a review.`);
+
+//     const noteFolder = notesData;
+
+//     const queueForDeletion = noteFolder.filter((element) => {
+//         if (element.id != req.params.id) {
+//             console.log(element);
+//             return element;
+//         }
+//     });
+
+//     const deletionString = JSON.stringify(queueForDeletion, null);
+//     fs.writeFile(`./public/db/db.json`, deletionString).then((err) => {
+//         err ? console.error(err) : console.log(`Successfully updated reviews.`);
+//     });
+
+//     if(deletionString === null) {
+//         console.log(true);
+//     } else if (deletionString == "undefined") {
+//         console.log("not defined");
+//     } else {
+//         console.log(false);
+//         console.log(deletionString);
+//     }
+// });
 
 app.listen(PORT, () => console.log(`App listening on localhost:${PORT}`));
