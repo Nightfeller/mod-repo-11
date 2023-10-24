@@ -56,31 +56,22 @@ app.post('/api/notes', (req, res) => {
 });
 
 
-// app.delete('/api/notes/:id', (req, res) => {
-//     console.info(`${req.method} request recived to delete a review.`);
+app.delete('/api/notes/:id', (req, res) => {
+    console.info(`${req.method} request recived to delete a review.`);
 
-//     const noteFolder = notesData;
+    const noteFolder = notesData;
 
-//     const queueForDeletion = noteFolder.filter((element) => {
-//         if (element.id != req.params.id) {
-//             console.log(element);
-//             return element;
-//         }
-//     });
+    const queueForDeletion = noteFolder.filter((element) => {
+        if (element.id != req.params.id) {
+            console.log(element);
+            return element;
+        }
+    });
 
-//     const deletionString = JSON.stringify(queueForDeletion, null);
-//     fs.writeFile(`./public/db/db.json`, deletionString).then((err) => {
-//         err ? console.error(err) : console.log(`Successfully updated reviews.`);
-//     });
-
-//     if(deletionString === null) {
-//         console.log(true);
-//     } else if (deletionString == "undefined") {
-//         console.log("not defined");
-//     } else {
-//         console.log(false);
-//         console.log(deletionString);
-//     }
-// });
+    const deletionString = JSON.stringify(queueForDeletion, null);
+    fs.writeFile(`./public/db/db.json`, deletionString).then((err) => {
+        err ? console.error(err) : console.log(`Successfully updated reviews.`);
+    });
+});
 
 app.listen(PORT, () => console.log(`App listening on localhost:${PORT}`));
